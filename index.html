@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeminiTranslator 設定マニュアル</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            background: linear-gradient(135deg, #5865F2 0%, #7289DA 100%);
+            padding: 60px 40px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 2px 2px 4px rgba(0,0,0,0.2), 0 0 10px rgba(255,255,255,0.3); }
+            to { text-shadow: 2px 2px 4px rgba(0,0,0,0.2), 0 0 20px rgba(255,255,255,0.5); }
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+            animation: slideIn 0.6s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        h2 {
+            color: #5865F2;
+            font-size: 2em;
+            margin-bottom: 20px;
+            border-left: 5px solid #5865F2;
+            padding-left: 15px;
+            transition: all 0.3s ease;
+        }
+
+        h2:hover {
+            transform: translateX(10px);
+            color: #7289DA;
+        }
+
+        h3 {
+            color: #4752C4;
+            font-size: 1.5em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .step-number {
+            background: linear-gradient(135deg, #5865F2, #7289DA);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(88, 101, 242, 0.3);
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #ff6b6b, #ff8787);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 5px 20px rgba(255, 107, 107, 0.3);
+            position: relative;
+            overflow: hidden;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .warning-box::before {
+            content: "⚠️";
+            font-size: 2em;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            animation: shake 2s infinite;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-5deg); }
+            75% { transform: rotate(5deg); }
+        }
+
+        .warning-box-content {
+            margin-left: 60px;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 5px 20px rgba(76, 175, 80, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-box::before {
+            content: "💡";
+            font-size: 2em;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+
+        .info-box-content {
+            margin-left: 60px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #5865F2, #7289DA);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-card h4 {
+            color: #5865F2;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .code-block {
+            background: #2c2f33;
+            color: #7289da;
+            padding: 15px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow-x: auto;
+        }
+
+        .code-block::before {
+            content: "APIキー";
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            font-size: 0.8em;
+            color: #7289da;
+            opacity: 0.5;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #5865F2, #7289DA);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(88, 101, 242, 0.3);
+            font-weight: bold;
+            margin: 10px 5px;
+        }
+
+        .button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(88, 101, 242, 0.4);
+            background: linear-gradient(135deg, #7289DA, #5865F2);
+        }
+
+        .download-section {
+            background: linear-gradient(135deg, #f0f2f5, #e3e5e8);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .download-info {
+            margin-top: 15px;
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+
+        .image-placeholder {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .doc-image {
+            width: 100%;
+            max-width: 700px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            border: 1px solid #e0e0e0;
+        }
+
+        .discord-ui-demo {
+            background: #36393f;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            position: relative;
+        }
+
+        .discord-message {
+            background: #40444b;
+            padding: 10px;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .message-content {
+            color: #dcddde;
+            margin-bottom: 5px;
+        }
+
+        .message-toolbar {
+            position: absolute;
+            top: -30px;
+            right: 10px;
+            background: #2f3136;
+            border-radius: 4px;
+            padding: 4px 8px;
+            display: flex;
+            gap: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            align-items: center;
+        }
+
+        .toolbar-icon {
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+        }
+
+        .toolbar-icon:hover {
+            opacity: 1;
+        }
+
+        .translate-icon-img {
+            width: 20px;
+            height: 20px;
+            filter: brightness(0.8);
+            transition: filter 0.2s;
+        }
+
+        .toolbar-icon:hover .translate-icon-img {
+            filter: brightness(1);
+        }
+
+        .highlighted-icon {
+            border: 2px solid #ff4444;
+            border-radius: 4px;
+            padding: 2px 4px;
+            background: rgba(255, 68, 68, 0.1);
+            animation: pulse-red 2s infinite;
+        }
+
+        @keyframes pulse-red {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 68, 68, 0.7); }
+            50% { box-shadow: 0 0 0 10px rgba(255, 68, 68, 0); }
+        }
+
+        .context-menu-demo {
+            background: #18191c;
+            border-radius: 4px;
+            padding: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            max-width: 250px;
+            margin: 15px auto;
+        }
+
+        .menu-item {
+            padding: 8px 12px;
+            color: #b9bbbe;
+            cursor: pointer;
+            border-radius: 3px;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .menu-item:hover {
+            background: #4f545c;
+            color: #fff;
+        }
+
+        .menu-icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        .highlighted-menu {
+            background: rgba(255, 68, 68, 0.2);
+            border: 1px solid #ff4444;
+            color: #fff;
+        }
+
+        .discord-input-demo {
+            background: #40444b;
+            border-radius: 8px;
+            padding: 10px;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .input-toolbar-right {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .input-icon {
+            color: #b9bbbe;
+            cursor: pointer;
+            transition: color 0.2s;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-icon:hover {
+            color: #fff;
+        }
+
+        .input-icon:hover .translate-icon-img {
+            filter: brightness(1.2);
+        }
+
+        .auto-translate-icon {
+            border: 2px solid #ff4444;
+            border-radius: 4px;
+            padding: 2px 6px;
+            background: rgba(255, 68, 68, 0.1);
+            animation: pulse-red 2s infinite;
+        }
+
+        .input-field {
+            flex: 1;
+            color: #72767d;
+            padding: 0 10px;
+        }
+
+        .highlighted-text {
+            background: linear-gradient(135deg, #ff4444, #ff6666);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        li {
+            margin: 10px 0;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        li::before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: #5865F2;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .troubleshooting-item {
+            background: #f8f9fa;
+            border-left: 4px solid #ff6b6b;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .troubleshooting-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .troubleshooting-item strong {
+            color: #ff6b6b;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .footer {
+            background: #2c2f33;
+            color: #7289da;
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2em; }
+            h2 { font-size: 1.5em; }
+            .content { padding: 20px; }
+            .feature-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>GeminiTranslator 設定マニュアル</h1>
+            <div class="subtitle">BetterDiscord翻訳プラグイン v1.0</div>
+        </div>
+
+        <div class="content">
+            <section class="section">
+                <h2>はじめに</h2>
+                <p>GeminiTranslatorは、Googleの言語モデル「Gemini」を使用してDiscordのメッセージをリアルタイムで翻訳するBetterDiscord用プラグインです。</p>
+                
+                <div class="download-section">
+                    <h3>🚀 プラグインをダウンロード</h3>
+                    <a href="https://drive.google.com/file/d/1YWw_h_ILiafRc4qORiObN6Hp9e66oO1y/view?usp=sharing" class="button" target="_blank" style="font-size: 1.1em; padding: 15px 40px;">
+                        📥 discord-translator.plugin.js をダウンロード
+                    </a>
+                    <div class="download-info">
+                        最新バージョン: v1.0.0 | ファイルサイズ: 約 50KB
+                    </div>
+                </div>
+                
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>主な機能</h4>
+                        <p>受信/送信メッセージの翻訳、自動翻訳、文章生成＆翻訳</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>対応言語</h4>
+                        <p>主要言語に対応、双方向翻訳が可能</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>動作環境</h4>
+                        <p>Windows、Mac対応。BetterDiscord必須</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>インストール手順</h2>
+                
+                <div class="warning-box">
+                    <div class="warning-box-content">
+                        <strong>注意事項</strong><br>
+                        BetterDiscordはDiscordの利用規約で明確に許可されていません。使用は自己責任でお願いします。
+                    </div>
+                </div>
+
+                <h3><span class="step-number">1</span>BetterDiscordのインストール</h3>
+                <p>プラグインを使用するにはBetterDiscordが必要です。</p>
+                
+                <div class="info-box">
+                    <div class="info-box-content">
+                        <strong>BetterDiscordとは</strong><br>
+                        Discordにプラグインやテーマを追加できるようにする非公式の拡張機能です。カスタマイズ性が大幅に向上しますが、Discord公式のサポート対象外となります。
+                    </div>
+                </div>
+
+                <a href="https://betterdiscord.app/" class="button" target="_blank">BetterDiscord（公式）</a>
+                
+                <h4>ダウンロード手順</h4>
+                <ol>
+                    <li><strong>公式サイトにアクセス</strong>
+                        <ul>
+                            <li>上記ボタンからBetterDiscord公式サイトへ移動</li>
+                            <li>トップページの「Download」ボタンをクリック</li>
+                        </ul>
+                    </li>
+                </ol>
+
+                <div class="image-placeholder">
+                    <img src="images/betterdiscord-website.png" alt="BetterDiscord公式サイト" class="doc-image">
+                </div>
+
+                <ol start="2">
+                    <li><strong>インストーラーを実行</strong>
+                        <ul>
+                            <li>ダウンロードしたファイルを開く</li>
+                            <li>「Install BetterDiscord」を選択</li>
+                            <li>インストール先のDiscord（Stable/PTB/Canary）を選択</li>
+                            <li>通常は「Discord Stable」を選択</li>
+                        </ul>
+                    </li>
+                </ol>
+                
+                <div class="image-placeholder">
+                    <img src="images/betterdiscord-select-discord.png" alt="Discord選択画面" class="doc-image">
+                </div>
+
+                <ol start="3">
+                    <li><strong>インストール完了後の確認</strong>
+                        <ul>
+                            <li>Discordを再起動</li>
+                            <li>設定画面に「プラグイン」「テーマ」タブが追加されていることを確認</li>
+                        </ul>
+                    </li>
+                </ol>
+
+                <div class="image-placeholder">
+                    <img src="images/discord-settings-plugins.png" alt="Discord設定画面のプラグインタブ" class="doc-image">
+                </div>
+
+                <div class="troubleshooting-item">
+                    <strong>インストールがうまくいかない場合</strong>
+                    <ul>
+                        <li>Discordが完全に終了しているか確認（タスクマネージャーで確認）</li>
+                        <li>管理者権限でインストーラーを実行</li>
+                        <li>アンチウイルスソフトが妨害していないか確認</li>
+                        <li>Discord本体を最新版にアップデート後、再度試す</li>
+                    </ul>
+                </div>
+
+                <h3><span class="step-number">2</span>プラグインファイルの配置</h3>
+                
+                <div style="margin: 20px 0; text-align: center;">
+                    <a href="https://drive.google.com/file/d/1YWw_h_ILiafRc4qORiObN6Hp9e66oO1y/view?usp=sharing" class="button" target="_blank">
+                        📥 discord-translator.plugin.js をダウンロード
+                    </a>
+                </div>
+
+                <ol>
+                    <li>上記ボタンから discord-translator.plugin.js をダウンロード</li>
+                    <li>Discord設定 → プラグイン タブを開く</li>
+                    <li>「Open Plugin Folder」をクリック</li>
+                    <li>プラグインファイルをフォルダに配置</li>
+                </ol>
+
+                <h3><span class="step-number">3</span>BDFDBライブラリのインストール</h3>
+                <p>このプラグインはBDFDBライブラリが必要です。プラグイン有効化時に自動でダウンロード案内が表示されます。</p>
+                
+                <div class="info-box">
+                    <div class="info-box-content">
+                        <strong>ライブラリのインストール</strong><br>
+                        初回起動時にポップアップが表示されるので、「Download Now」をクリックしてください。自動でインストールされます。
+                    </div>
+                </div>
+
+                <div class="image-placeholder">
+                    <img src="images/bdfdb-download.png" alt="BDFDBライブラリのダウンロード通知" class="doc-image">
+                </div>
+
+                <h3><span class="step-number">4</span>APIキーの取得と設定</h3>
+                <p>Gemini APIを使用するためにAPIキーが必要です。</p>
+
+                <div style="margin: 20px 0;">
+                    <a href="https://aistudio.google.com/app/apikey" class="button" target="_blank">Google AI Studio</a>
+                </div>
+
+                <ol>
+                    <li>Google AI StudioでGoogleアカウントにログイン</li>
+                    <li>「Create API Key」をクリック</li>
+                    <li>プロジェクトを選択または新規作成</li>
+                    <li>生成されたAPIキーをコピー</li>
+                </ol>
+
+                <div class="image-placeholder">
+                    <img src="images/google-ai-studio.png" alt="APIキーの作成画面" class="doc-image">
+                </div>
+
+                <div class="code-block">
+                    AIzaSyDN7h5SL4kXp9vQ2mE8fR3tY6jKwL9A2nM（例）
+                </div>
+
+                <ol start="5">
+                    <li>Discord設定 → プラグイン を開く</li>
+                    <li>GeminiTranslatorの歯車アイコンをクリック</li>
+                    <li>「Gemini API Key (Required):」欄にペースト</li>
+                    <li>設定を保存</li>
+                </ol>
+
+                <div class="image-placeholder">
+                    <img src="images/plugin-settings.png" alt="プラグイン設定画面" class="doc-image">
+                </div>
+
+                <div class="warning-box">
+                    <div class="warning-box-content">
+                        <strong>料金について</strong><br>
+                        ・無料利用：請求先アカウントを紐付けなければ無料枠内で利用可能<br>
+                        ・制限：1分15リクエスト、1日1,000リクエスト<br>
+                        ・課金：請求先登録すると無料枠超過後に自動課金
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>使い方</h2>
+                
+                <div class="warning-box">
+                    <div class="warning-box-content">
+                        <strong>翻訳精度について</strong><br>
+                        このプラグインはAIによる自動翻訳を行います。翻訳結果は必ずしも100％正確ではありません。重要な内容の場合は、翻訳結果を確認し、必要に応じて修正してください。特に専門用語や文化的なニュアンスが含まれる場合は注意が必要です。
+                    </div>
+                </div>
+
+                <h3>受信メッセージの翻訳</h3>
+                
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>方法1：翻訳アイコン</h4>
+                        <p>メッセージにマウスを合わせると表示されるツールバーの翻訳アイコンをクリック</p>
+                        <div class="discord-ui-demo">
+                            <div class="discord-message">
+                                <div class="message-content">Hello! How are you today?</div>
+                                <div class="message-toolbar">
+                                    <span class="toolbar-icon">😊</span>
+                                    <span class="toolbar-icon">💬</span>
+                                    <span class="toolbar-icon highlighted-icon">🌐</span>
+                                    <span class="toolbar-icon">⋮</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <h4>方法2：右クリックメニュー</h4>
+                        <p>メッセージを右クリックして「メッセージの翻訳」を選択</p>
+                        <div class="context-menu-demo">
+                            <div class="menu-item">コピー</div>
+                            <div class="menu-item">編集</div>
+                            <div class="menu-item highlighted-menu">🌐 メッセージの翻訳</div>
+                            <div class="menu-item">削除</div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>送信メッセージの自動翻訳</h3>
+                
+                <div class="discord-input-demo">
+                    <span class="input-icon">➕</span>
+                    <div class="input-field">メッセージを送信...</div>
+                    <div class="input-toolbar-right">
+                        <span class="input-icon auto-translate-icon">🌐</span>
+                        <span class="input-icon">🎁</span>
+                        <span class="input-icon">GIF</span>
+                        <span class="input-icon">😊</span>
+                    </div>
+                </div>
+
+                <ol>
+                    <li>入力欄右側の <span class="highlighted-text">🌐 翻訳アイコン</span> を右クリック</li>
+                    <li>「送信する前にメッセージを翻訳する」をON</li>
+                    <li>日本語でメッセージを入力</li>
+                    <li>送信時に自動で英語（デフォルト）に翻訳</li>
+                </ol>
+
+                <h3>翻訳ツールウィンドウ</h3>
+                <p>翻訳アイコンを左クリックすると詳細設定ウィンドウが開きます。</p>
+                
+                <div class="info-box">
+                    <div class="info-box-content">
+                        <strong>設定可能な項目</strong><br>
+                        • 翻訳元/翻訳先言語の選択<br>
+                        • 翻訳スタイル（カジュアル/丁寧/ビジネス）<br>
+                        • 翻訳結果の入力欄への挿入<br>
+                        • 文章生成機能（NEW）
+                    </div>
+                </div>
+
+                <h4>文章生成機能について</h4>
+                <p>翻訳ツールウィンドウの「文章生成」機能を使うと、作りたい文章の内容を日本語で簡単に伝えるだけで、AIが文章を自動生成し、指定した言語に翻訳してくれます。</p>
+                
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>使用例1：ビジネスメール</h4>
+                        <p>入力：「会議の日程変更を謝罪するメール」<br>
+                        → 丁寧な謝罪文を生成して英語に翻訳</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>使用例2：ゲーム内チャット</h4>
+                        <p>入力：「チームメイトを褒める」<br>
+                        → カジュアルな褒め言葉を生成して翻訳</p>
+                    </div>
+                </div>
+
+                <div class="troubleshooting-item" style="background: #e8f5e9; border-left-color: #4CAF50;">
+                    <strong>💡 文章生成のコツ</strong>
+                    <ul>
+                        <li>具体的な状況を伝える（例：「遅刻を謝る」より「会議に10分遅刻したことを謝る」）</li>
+                        <li>文章のトーンを指定（例：「フレンドリーに自己紹介」）</li>
+                        <li>相手との関係性を明記（例：「上司に報告」「友達に誘う」）</li>
+                    </ul>
+                </div>
+
+                <div class="image-placeholder">
+                    <img src="images/translate-window.png" alt="翻訳ツールウィンドウ" class="doc-image">
+                </div>
+            </section>
+
+                <h3>翻訳ツールウィンドウ</h3>
+                <p>チャット入力欄の翻訳アイコンをクリックすると、高度な翻訳ウィンドウが開きます。</p>
+                
+                <div class="info-box">
+                    <div class="info-box-content">
+                        <strong>利用可能な機能：</strong><br>
+                        • 翻訳元/翻訳先言語の選択<br>
+                        • 翻訳スタイル（カジュアル/丁寧/ビジネス）の指定<br>
+                        • 翻訳結果のチャット入力欄への直接挿入<br>
+                        • カスタムプロンプトの追加
+                    </div>
+                </div>
+
+                <div class="image-placeholder">
+                    <span>翻訳ツールウィンドウ</span>
+                    <small>詳細な翻訳オプションを自由に設定</small>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>トラブルシューティング</h2>
+                
+                <div class="troubleshooting-item">
+                    <strong>翻訳が動作しない</strong>
+                    <ul>
+                        <li>APIキーが正しく入力されているか確認</li>
+                        <li>1日1,000リクエストの上限に達していないか</li>
+                        <li>BDFDBライブラリがインストールされているか</li>
+                        <li>プラグインが有効になっているか</li>
+                    </ul>
+                </div>
+
+                <div class="troubleshooting-item">
+                    <strong>翻訳結果がおかしい</strong>
+                    <ul>
+                        <li>翻訳元と翻訳先の言語設定を確認</li>
+                        <li>長文の場合は短く分割してみる</li>
+                        <li>文章生成機能で言い回しを変えてみる</li>
+                    </ul>
+                </div>
+
+                <div class="troubleshooting-item">
+                    <strong>エラーが表示される</strong>
+                    <ul>
+                        <li>Discord・BetterDiscord・プラグインを最新版に更新</li>
+                        <li>他のプラグインを一時的に無効化して確認</li>
+                        <li>Discordを再起動</li>
+                    </ul>
+                </div>
+        </div>
+
+        <div class="footer">
+            <p>GeminiTranslator Plugin Documentation</p>
+            <p style="margin-top: 10px; opacity: 0.7;">最終更新: 2025年1月</p>
+        </div>
+    </div>
+</body>
+</html>
