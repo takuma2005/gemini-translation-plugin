@@ -649,6 +649,19 @@
                     </ul>
                 </div>
 
+                <div class="troubleshooting-item">
+                    <strong>Macでインストーラーが弾かれる場合</strong>
+                    <ul>
+                        <li><strong>Gatekeeperの警告が出た場合：</strong></li>
+                        <li>1. システム環境設定 → セキュリティとプライバシー を開く</li>
+                        <li>2. 「一般」タブで「このまま開く」をクリック</li>
+                        <li>3. または、Finderでインストーラーを右クリック → 「開く」を選択</li>
+                        <li><strong>それでも開けない場合：</strong></li>
+                        <li>ターミナルで以下を実行: <code>sudo spctl --master-disable</code></li>
+                        <li>インストール後は元に戻す: <code>sudo spctl --master-enable</code></li>
+                    </ul>
+                </div>
+
                 <h3><span class="step-number">2</span>プラグインファイルの配置</h3>
                 
                 <div style="margin: 20px 0; text-align: center;">
@@ -665,12 +678,21 @@
                 </ol>
 
                 <h3><span class="step-number">3</span>BDFDBライブラリのインストール</h3>
-                <p>このプラグインはBDFDBライブラリが必要です。プラグイン有効化時に自動でダウンロード案内が表示されます。</p>
+                <p>このプラグインはBDFDBライブラリが必要です。</p>
+                
+                <ol>
+                    <li>Discord設定 → プラグイン タブを開く</li>
+                    <li>GeminiTranslatorプラグインを<strong>有効化</strong>（トグルをON）</li>
+                    <li>ライブラリ不足の通知が表示される</li>
+                    <li>「Download Now」をクリックして自動インストール</li>
+                    <li>Discordを再起動</li>
+                    <li>再起動後、GeminiTranslatorがOFFになっていたら<strong>再度トグルをONにする</strong></li>
+                </ol>
                 
                 <div class="info-box">
                     <div class="info-box-content">
-                        <strong>ライブラリのインストール</strong><br>
-                        初回起動時にポップアップが表示されるので、「Download Now」をクリックしてください。自動でインストールされます。
+                        <strong>重要：プラグインの有効化</strong><br>
+                        BDFDBライブラリをインストールした後、GeminiTranslatorプラグインを必ず有効化してください。有効化しないと設定画面（歯車アイコン）にアクセスできません。
                     </div>
                 </div>
 
@@ -702,6 +724,7 @@
 
                 <ol start="5">
                     <li>Discord設定 → プラグイン を開く</li>
+                    <li><strong>GeminiTranslatorが有効になっていることを確認</strong></li>
                     <li>GeminiTranslatorの歯車アイコンをクリック</li>
                     <li>「Gemini API Key (Required):」欄にペースト</li>
                     <li>設定を保存</li>
